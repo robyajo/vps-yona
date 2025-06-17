@@ -5,6 +5,10 @@ PROJECT_NAME = vps-yona
 up:
 	docker compose up -d --build
 
+# Build ulang semua image
+build:
+	docker compose build
+
 # Hentikan dan hapus container
 down:
 	docker compose down
