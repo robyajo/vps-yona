@@ -1,12 +1,14 @@
 version: "3.8"
 
 services:
-  php:
+  php_one:
     build:
       context: ./docker/php
-    container_name: php
+    container_name: api_blog
     volumes:
       - ./src/apilaravel:/var/www/apilaravel
+    ports:
+      - "8000:80" # Laravel API
     networks:
       - appnet
 
@@ -20,18 +22,20 @@ services:
       - ./docker/nginx/sites:/etc/nginx/conf.d
       - ./src:/var/www
     depends_on:
-      - php
-      - node
+      - php_one
+      - node_one
     networks:
       - appnet
 
-  node:
+  node_one:
     image: node:22
-    container_name: node
+    container_name: home_blog
     working_dir: /app
     volumes:
       - ./src/nextjsapp:/app
     command: sh -c "npm install && npm run dev"
+    ports:
+      - "3002:3000"
     networks:
       - appnet
 
@@ -57,6 +61,10 @@ services:
     restart: always
     environment:
       PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: root
+      PMA_CONTROLUSER: root
+      PMA_CONTROLPASS: root
     ports:
       - "8081:80"
     depends_on:

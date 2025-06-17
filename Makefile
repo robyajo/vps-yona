@@ -20,6 +20,8 @@ logs:
 # Masuk ke container PHP (Laravel)
 php:
 	docker exec -it php bash
+api_blog:
+	docker exec -it api_blog bash
 
 # Masuk ke container Node.js (Next.js)
 node:
