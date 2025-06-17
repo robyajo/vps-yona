@@ -14,14 +14,16 @@ services:
 
   php_one:
     build:
-     context: ./docker/php
+      context: ./src/apilaravel
+      dockerfile: ../../docker/php/Dockerfile
     container_name: api_blog
     volumes:
-     - ./src/apilaravel:/var/www/apilaravel
+      - ./src/apilaravel:/var/www
     expose:
-     - "9000" # PHP-FPM port
+      - "9000"
     networks:
-     - appnet
+    - appnet
+
 
 
   nginx:
