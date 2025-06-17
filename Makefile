@@ -2,6 +2,10 @@
 PROJECT_NAME = vps-yona
 
 # Jalankan semua container dengan build
+reload:
+	docker compose up -d
+
+# Jalankan semua container dengan build
 up:
 	docker compose up -d --build
 
