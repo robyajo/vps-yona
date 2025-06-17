@@ -1,0 +1,71 @@
+version: "3.8"
+
+services:
+  php:
+    build:
+      context: ./docker/php
+    container_name: php
+    volumes:
+      - ./src/apilaravel:/var/www/apilaravel
+    networks:
+      - appnet
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "8001:80" # Laravel
+      - "3001:81" # Next.js (via Nginx proxy)
+    volumes:
+      - ./docker/nginx/sites:/etc/nginx/conf.d
+      - ./src:/var/www
+    depends_on:
+      - php
+      - node
+    networks:
+      - appnet
+
+  node:
+    image: node:22
+    container_name: node
+    working_dir: /app
+    volumes:
+      - ./src/nextjsapp:/app
+    command: sh -c "npm install && npm run dev"
+    networks:
+      - appnet
+
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: appdb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - appnet
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mysql
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+    networks:
+      - appnet
+
+networks:
+  appnet:
+
+volumes:
+  mysql-data:
