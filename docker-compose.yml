@@ -1,16 +1,28 @@
 version: "3.8"
 
 services:
+  # php_one:
+  #   build:
+  #     context: ./docker/php
+  #   container_name: api_blog
+  #   volumes:
+  #     - ./src/apilaravel:/var/www/apilaravel
+  #   ports:
+  #     - "8000:80" # Laravel API
+  #   networks:
+  #     - appnet
+
   php_one:
     build:
-      context: ./docker/php
+     context: ./docker/php
     container_name: api_blog
     volumes:
-      - ./src/apilaravel:/var/www/apilaravel
-    ports:
-      - "8000:80" # Laravel API
+     - ./src/apilaravel:/var/www/apilaravel
+    expose:
+     - "9000" # PHP-FPM port
     networks:
-      - appnet
+     - appnet
+
 
   nginx:
     image: nginx:latest
