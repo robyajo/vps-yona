@@ -3,19 +3,19 @@ PROJECT_NAME = vps-yona
 
 # Jalankan semua container dengan build
 up:
-	docker-compose up -d --build
+	docker compose up -d --build
 
 # Hentikan dan hapus container
 down:
-	docker-compose down
+	docker compose down
 
 # Stop dan rebuild semua service
 restart:
-	docker-compose down && docker-compose up -d --build
+	docker compose down && docker compose up -d --build
 
 # Tampilkan log real-time
 logs:
-	docker-compose logs -f
+	docker compose logs -f
 
 # Masuk ke container PHP (Laravel)
 php:
@@ -52,9 +52,9 @@ ps:
 
 # Pembersihan total: stop semua, hapus image, volume, network
 clean:
-	docker-compose down -v --remove-orphans
+	docker compose down -v --remove-orphans
 	docker system prune -a --volumes -f
 
 # Rebuild dari awal + bersihkan volume
 rebuild:
-	docker-compose down -v && docker-compose up --build
+	docker compose down -v && docker compose up --build
