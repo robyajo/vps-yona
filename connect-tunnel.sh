@@ -1,4 +1,5 @@
 #!/bin/bash
+# chmod +x connect-tunnel.sh
 
 docker network connect tunnel nginx
 docker network connect tunnel phpmyadmin
