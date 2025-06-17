@@ -17,7 +17,10 @@ WORKDIR /var/www
 
 RUN apt-get update && apt-get install -y \
     zip unzip curl git libzip-dev libonig-dev libxml2-dev \
-    && docker-php-ext-install pdo pdo_mysql zip
+    libmagickwand-dev --no-install-recommends \
+    && docker-php-ext-install pdo pdo_mysql zip \
+    && pecl install imagick \
+    && docker-php-ext-enable imagick
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
